@@ -1,0 +1,38 @@
+candidates:
+  java:
+    versions:
+      - pattern: "^21.*-zulu"
+        default: true
+      - pattern: "^21.*-graalce"
+      - pattern: "^17.*-graalce"
+      - pattern: "^17.*-zulu"
+      - pattern: "^11.*-zulu"
+      - pattern: "^8.*-zulu"
+  kotlin:
+    versions:
+      - pattern: ".*"
+  groovy:
+    versions:
+      - pattern: "^4\\..*"
+        exclude:
+          - ".*alpha.*"
+          - ".*-rc.*"
+  gradle:
+    versions:
+      - pattern: ".*"
+        exclude:
+          - ".*-rc.*"
+  maven:
+    versions:
+      - pattern: "^3.*"
+        exclude:
+          - ".*alpha.*"
+  quarkus:
+    versions:
+      - pattern: ".*"
+  micronaut:
+    versions:
+      - pattern: ".*"
+        exlcude:
+          - "^.*M.*$"
+          - "^.*RC.*$"
