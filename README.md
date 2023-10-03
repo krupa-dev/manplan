@@ -22,11 +22,12 @@ ignored.
 
 The format is simple. The root object is called 'candidates' which
 contains a map of candidate name to definitions. Each definition
-has a single attribute 'versions' which is a list of version. Each
-version has a single attribute 'pattern' that is a regular expression
-to match for expected versions (e.g. `^1\.8\..*$`) and optional 'default'
-(a boolean indicating if this is the default version) and 'exclude'
-(a list of exlucded regaulr expressions such as '.*-rc.*') fields.
+has a single attribute 'versions' which is a list of versions to
+install. Each version has the following properties:
+
+* pattern (required) - a regular expression to match for expected versions (e.g. `^1\.8\..*$`)
+* default (optional) - a boolean indicating if this is the default version
+* exclude (optional) - a list of regular expressions (e.g. '.*-rc.*') to ignore
 
 ### Example manifest
 
