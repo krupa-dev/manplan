@@ -62,8 +62,6 @@ fn main() {
 
         if let Some(default) = default {
             sdkman.set_default(name.clone(), default);
-        } else if required.len() == 1 {
-            sdkman.set_default(name.clone(), required.iter().next().unwrap().to_string());
         }
     }
 }
