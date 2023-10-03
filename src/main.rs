@@ -19,6 +19,10 @@ struct Args {
     /// Just print out the commands that would be executed
     #[arg(short, long, default_value_t = false)]
     dry_run: bool,
+
+    /// Do not uninstall non-required candidate versions
+    #[arg(short, long, default_value_t = false)]
+    no_uninstall: bool,
 }
 
 fn main() {
@@ -26,6 +30,7 @@ fn main() {
 
     let sdkman = SdkMan{
         dry_run: args.dry_run,
+        no_uninstall: args.no_uninstall
     };
     let rules = parse_rules(fs::read_to_string(args.file).expect("Failed to read input file"));
     for (name, candidate) in rules.expect("Rules file could not be parsed").candidates {

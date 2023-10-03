@@ -15,6 +15,7 @@ pub trait ToolManager {
 
 pub struct SdkMan {
     pub dry_run: bool,
+    pub no_uninstall: bool
 }
 
 impl ToolManager for SdkMan {
@@ -79,7 +80,9 @@ impl ToolManager for SdkMan {
         let cmd = format!("sdk uninstall {} {}", candidate, version);
         print!("{}: ", cmd);
         io::stdout().flush().unwrap();
-        if !self.dry_run {
+        if self.no_uninstall {
+            println!("NO-UNINSTALL");
+        } else if !self.dry_run {
             let output = std::process::Command::new(shell)
                 .arg("-l")
                 .arg("-c")

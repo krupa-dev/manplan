@@ -16,7 +16,7 @@ ignored.
 
 ## Usage
 
-`manplan -f|--file <manifest file> [-d|--dry-run]`
+`manplan -f|--file <manifest file> [-d|--dry-run] [-n|no-uninstall]`
 
 ## Manifest format
 
