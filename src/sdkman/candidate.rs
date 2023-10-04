@@ -27,7 +27,8 @@ mod private {
                 if equals_pattern.is_match(line) {
                     equals += 1;
                 } else if equals == 2 {
-                    let columns: Vec<&str> = line.split_whitespace()
+                    let columns: Vec<&str> = line
+                        .split_whitespace()
                         .filter(|word| *word != "*" && *word != ">")
                         .collect();
 
@@ -83,9 +84,10 @@ mod test {
 
     #[test]
     fn sample_kotlin_versions_parsed_in_order() {
-        let candidate = SdkManCandidate{
+        let candidate = SdkManCandidate {
             name: "kotlin".to_string(),
-            output: "================================================================================
+            output:
+                "================================================================================
 Available Kotlin Versions
 ================================================================================
  > * 1.9.0               1.4.20              1.2.70              1.1.4
@@ -95,17 +97,21 @@ Available Kotlin Versions
 + - local version
 * - installed
 > - currently in use
-================================================================================".to_string()
+================================================================================"
+                    .to_string(),
         };
-        let expected = vec!["1.9.0", "1.8.20", "1.4.20", "1.4.10", "1.2.70", "1.2.61", "1.1.4", "1.1.3-2"];
+        let expected = vec![
+            "1.9.0", "1.8.20", "1.4.20", "1.4.10", "1.2.70", "1.2.61", "1.1.4", "1.1.3-2",
+        ];
         assert_eq!(candidate.available_versions(), expected);
     }
 
     #[test]
     fn sample_java_versions_parsed_in_order() {
-        let candidate = SdkManCandidate{
+        let candidate = SdkManCandidate {
             name: "java".to_string(),
-            output: "================================================================================
+            output:
+                "================================================================================
 Available Java Versions for macOS ARM 64bit
 ================================================================================
  Vendor        | Use | Version      | Dist    | Status     | Identifier
@@ -125,9 +131,18 @@ Use TAB completion to discover available versions
 Or install a specific version by Identifier:
     $ sdk install java 17.0.8.1-tem
 Hit Q to exit this list view
-================================================================================".to_string()
+================================================================================"
+                    .to_string(),
         };
-        let expected = vec!["21-amzn", "20.0.2-amzn", "22.1.0.1.r17-gln", "22.1.0.1.r11-gln", "21-graalce", "20.0.2-graalce", "20.0.1-graalce"];
+        let expected = vec![
+            "21-amzn",
+            "20.0.2-amzn",
+            "22.1.0.1.r17-gln",
+            "22.1.0.1.r11-gln",
+            "21-graalce",
+            "20.0.2-graalce",
+            "20.0.1-graalce",
+        ];
         assert_eq!(candidate.available_versions(), expected);
     }
 }

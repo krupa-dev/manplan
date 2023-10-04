@@ -6,8 +6,8 @@ use clap::Parser;
 use crate::rules::{parse_rules, VersionMatch};
 use crate::sdkman::{SdkMan, ToolManager};
 
-pub mod sdkman;
 pub mod rules;
+pub mod sdkman;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -28,13 +28,16 @@ struct Args {
 fn main() {
     let args = Args::parse();
 
-    let sdkman = SdkMan{
+    let sdkman = SdkMan {
         dry_run: args.dry_run,
-        no_uninstall: args.no_uninstall
+        no_uninstall: args.no_uninstall,
     };
     let rules = parse_rules(fs::read_to_string(args.file).expect("Failed to read input file"));
     for (name, candidate) in rules.expect("Rules file could not be parsed").candidates {
-        let installed: HashSet<_> = sdkman.installed_versions(name.clone()).into_iter().collect();
+        let installed: HashSet<_> = sdkman
+            .installed_versions(name.clone())
+            .into_iter()
+            .collect();
         let available = sdkman.available_versions(name.clone());
         let mut required: HashSet<String> = HashSet::new();
         let mut default: Option<String> = None;

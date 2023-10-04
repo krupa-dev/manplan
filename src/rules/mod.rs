@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use regex::Regex;
+use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
 use serde_yaml::{self, Error};
@@ -8,7 +8,7 @@ use serde_yaml::{self, Error};
 pub struct Version {
     pub pattern: String,
     pub default: Option<bool>,
-    pub exclude: Option<Vec<String>>
+    pub exclude: Option<Vec<String>>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Eq, PartialEq)]
@@ -18,10 +18,10 @@ pub struct Candidate {
 
 #[derive(Debug, Serialize, Deserialize, Eq, PartialEq)]
 pub struct Rules {
-    pub candidates: HashMap<String,Candidate>
+    pub candidates: HashMap<String, Candidate>,
 }
 
-pub fn parse_rules(data: String) -> Result<Rules,Error> {
+pub fn parse_rules(data: String) -> Result<Rules, Error> {
     serde_yaml::from_str(&data)
 }
 
@@ -31,15 +31,19 @@ pub trait VersionMatch {
 
 impl VersionMatch for Version {
     fn get_matching(&self, name: String, available: Vec<String>) -> Option<String> {
-        let pattern = Regex::new(self.pattern.as_str()).expect(format!("Invalid regex for {}: {}", name, self.pattern).as_str());
-        let mut matches: Vec<String> = available.iter()
+        let pattern = Regex::new(self.pattern.as_str())
+            .expect(format!("Invalid regex for {}: {}", name, self.pattern).as_str());
+        let mut matches: Vec<String> = available
+            .iter()
             .filter(|it| pattern.is_match(it))
             .map(|it| it.to_string())
             .collect();
 
         if let Some(exclude) = self.exclude.as_ref() {
-            let exclude_pattern = Regex::new(exclude.join("|").as_str()).expect(format!("Invalid regex for {}: {}", name, exclude.join("|")).as_str());
-            matches = matches.into_iter()
+            let exclude_pattern = Regex::new(exclude.join("|").as_str())
+                .expect(format!("Invalid regex for {}: {}", name, exclude.join("|")).as_str());
+            matches = matches
+                .into_iter()
                 .filter(|it| !exclude_pattern.is_match(it))
                 .collect();
         }
@@ -68,7 +72,8 @@ candidates:
         exclude:
           - \".*alpha.*\"
           - \".*-rc.*\"
-        default: true".to_string();
+        default: true"
+            .to_string();
         let expected: Rules = Rules {
             candidates: hashmap! {
                 "java".to_string() => Candidate{
@@ -97,7 +102,7 @@ candidates:
                         }
                     ]
                 }
-            }
+            },
         };
 
         match parse_rules(input) {
@@ -111,13 +116,10 @@ candidates:
 
     #[test]
     fn versions_matched() {
-        let version = Version{
+        let version = Version {
             pattern: "^21.*$".to_string(),
             default: None,
-            exclude: Some(vec![
-                "-zulu".to_string(),
-                "-graalce".to_string(),
-            ])
+            exclude: Some(vec!["-zulu".to_string(), "-graalce".to_string()]),
         };
         let available = vec![
             "21.0.0-zulu".to_string(),
@@ -125,15 +127,18 @@ candidates:
             "21.0.0-amzn".to_string(),
             "21.0.0".to_string(),
         ];
-        assert_eq!(version.get_matching("java".to_string(), available), Some("21.0.0-amzn".to_string()));
+        assert_eq!(
+            version.get_matching("java".to_string(), available),
+            Some("21.0.0-amzn".to_string())
+        );
     }
 
     #[test]
     fn versions_matched_with_no_exclusion() {
-        let version = Version{
+        let version = Version {
             pattern: "^21.*$".to_string(),
             default: None,
-            exclude: None
+            exclude: None,
         };
         let available = vec![
             "21.0.0-zulu".to_string(),
@@ -141,15 +146,18 @@ candidates:
             "21.0.0-amzn".to_string(),
             "21.0.0".to_string(),
         ];
-        assert_eq!(version.get_matching("java".to_string(), available), Some("21.0.0-zulu".to_string()));
+        assert_eq!(
+            version.get_matching("java".to_string(), available),
+            Some("21.0.0-zulu".to_string())
+        );
     }
 
     #[test]
     fn versions_not_matched() {
-        let version = Version{
+        let version = Version {
             pattern: "^11.*$".to_string(),
             default: None,
-            exclude: None
+            exclude: None,
         };
         let available = vec![
             "21.0.0-zulu".to_string(),

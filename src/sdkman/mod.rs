@@ -1,7 +1,7 @@
-use std::{env, io};
+use crate::sdkman::candidate::{Candidate, SdkManCandidate};
 use std::fs::read_dir;
 use std::io::Write;
-use crate::sdkman::candidate::{Candidate, SdkManCandidate};
+use std::{env, io};
 
 mod candidate;
 
@@ -15,7 +15,7 @@ pub trait ToolManager {
 
 pub struct SdkMan {
     pub dry_run: bool,
-    pub no_uninstall: bool
+    pub no_uninstall: bool,
 }
 
 impl ToolManager for SdkMan {
@@ -32,11 +32,11 @@ impl ToolManager for SdkMan {
                 } else {
                     Vec::new()
                 }
-            },
+            }
             Err(_) => {
                 panic!("SDKMAN_DIR not set. Is SDKMAN installed?")
             }
-        }
+        };
     }
 
     fn available_versions(&self, candidate: String) -> Vec<String> {
@@ -50,7 +50,8 @@ impl ToolManager for SdkMan {
         SdkManCandidate {
             name: candidate,
             output: String::from_utf8(output.stdout).unwrap(),
-        }.available_versions()
+        }
+        .available_versions()
     }
 
     fn install(&self, candidate: String, version: String) {
@@ -121,5 +122,3 @@ impl ToolManager for SdkMan {
         }
     }
 }
-
-
