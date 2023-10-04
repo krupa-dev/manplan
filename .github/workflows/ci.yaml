@@ -19,10 +19,7 @@ env:
 
 jobs:
   check:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: ['ubuntu-20.04']
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
 
@@ -51,7 +48,9 @@ jobs:
             results.xml
 
       - name: Check format
-        run: cargo fmt -- --check
+        run: |
+          rustup component add rustfmt --toolchain nightly-x86_64-unknown-linux-gnu
+          cargo fmt -- --check
 
       - run: rustup component add clippy
       - uses: actions-rs/clippy-check@v1
