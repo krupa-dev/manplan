@@ -56,9 +56,11 @@ mod private {
                 } else if dashes_pattern.is_match(line) {
                     dashes += 1;
                 } else if equals == 2 && dashes == 1 {
-                    if let Some(word) = line.split_whitespace()
+                    if let Some(word) = line
+                        .split_whitespace()
                         .filter(|word| *word != "*" && *word != ">")
-                        .last() {
+                        .last()
+                    {
                         versions.push(word.to_string());
                     }
                 }
