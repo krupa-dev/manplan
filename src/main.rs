@@ -44,12 +44,12 @@ fn main() {
 
         for version in candidate.versions {
             let the_match = version.get_matching(name.clone(), available.clone());
-            the_match.map(|it| {
+            if let Some(it) = the_match {
                 required.insert(it.to_string());
                 if version.default.unwrap_or(false) {
                     default = Some(it.to_string());
                 }
-            });
+            }
         }
 
         let to_install = required.difference(&installed);

@@ -19,6 +19,7 @@ pub struct SdkMan {
 }
 
 impl ToolManager for SdkMan {
+    #[allow(clippy::needless_return)]
     fn installed_versions(&self, candidate: String) -> Vec<String> {
         return match env::var("SDKMAN_DIR") {
             Ok(dir) => {
