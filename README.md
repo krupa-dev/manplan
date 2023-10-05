@@ -16,7 +16,7 @@ ignored.
 
 ## Usage
 
-`manplan -f|--file <manifest file> [-d|--dry-run] [-n|no-uninstall]`
+`manplan -f|--file <manifest file> [-d|--dry-run] [-n|--no-uninstall]`
 
 ## Manifest format
 
@@ -27,7 +27,7 @@ install. Each version has the following properties:
 
 * pattern (required) - a regular expression to match for expected versions (e.g. `^1\.8\..*$`)
 * default (optional) - a boolean indicating if this is the default version
-* exclude (optional) - a list of regular expressions (e.g. '.*-rc.*') to ignore
+* exclude (optional) - a list of regular expressions (e.g. '.\*-rc.\*') to ignore
 
 ### Example manifest
 
