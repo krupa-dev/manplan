@@ -1,0 +1,58 @@
+name: 'Release'
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+env:
+  CARGO_INCREMENTAL: 0
+
+jobs:
+  build:
+    name: Binary
+    strategy:
+      fail-fast: false
+      matrix:
+        job:
+          - { target: x86_64-unknown-linux-musl, exe: amd64-linux, os: ubuntu-latest, features: default }
+          - { target: x86_64-apple-darwin, exe: amd64-macos, os: macos-latest, features: default }
+          - { target: aarch64-apple-darwin, exe: arm64-macos, os: macos-latest, features: default }
+    runs-on: ${{ matrix.job.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          target: ${{ matrix.job.target }}
+          components: rust-src
+      - uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          args: --release --target=${{ matrix.job.target }} --locked
+          command: build
+      - name: Rename result
+        run: |
+          cp target/${{ matrix.job.target }}/release/manplan manplan-${{ matrix.job.exe }}
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: binary
+          path: manplan-${{ matrix.job.exe }}
+
+  release:
+    name: "Tagged Release"
+    runs-on: "ubuntu-20.04"
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v2
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            ./binary/manplan-amd64-macos
+            ./binary/manplan-arm64-macos
+            ./binary/manplan-amd64-linux

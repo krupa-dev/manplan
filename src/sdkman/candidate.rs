@@ -89,8 +89,8 @@ mod test {
     fn sample_kotlin_versions_parsed_in_order() {
         let candidate = SdkManCandidate {
             name: "kotlin".to_string(),
-            output:
-                "================================================================================
+            output: "
+================================================================================
 Available Kotlin Versions
 ================================================================================
  > * 1.9.0               1.4.20              1.2.70              1.1.4
@@ -101,7 +101,7 @@ Available Kotlin Versions
 * - installed
 > - currently in use
 ================================================================================"
-                    .to_string(),
+                .to_string(),
         };
         let expected = vec![
             "1.9.0", "1.8.20", "1.4.20", "1.4.10", "1.2.70", "1.2.61", "1.1.4", "1.1.3-2",
@@ -113,8 +113,8 @@ Available Kotlin Versions
     fn sample_java_versions_parsed_in_order() {
         let candidate = SdkManCandidate {
             name: "java".to_string(),
-            output:
-                "================================================================================
+            output: "
+================================================================================
 Available Java Versions for macOS ARM 64bit
 ================================================================================
  Vendor        | Use | Version      | Dist    | Status     | Identifier
@@ -135,7 +135,7 @@ Or install a specific version by Identifier:
     $ sdk install java 17.0.8.1-tem
 Hit Q to exit this list view
 ================================================================================"
-                    .to_string(),
+                .to_string(),
         };
         let expected = vec![
             "21-amzn",
