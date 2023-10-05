@@ -1,6 +1,6 @@
 [package]
 name = "manplan"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Gerard Krupa"]
 edition = "2021"
 description = "Tool for keeping sdkman candidates up-to-date"
