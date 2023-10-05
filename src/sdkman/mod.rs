@@ -1,6 +1,7 @@
 use crate::sdkman::candidate::{Candidate, SdkManCandidate};
 use std::fs::read_dir;
 use std::io::Write;
+use std::path::Path;
 use std::{env, io};
 
 mod candidate;
@@ -23,8 +24,8 @@ impl ToolManager for SdkMan {
     fn installed_versions(&self, candidate: String) -> Vec<String> {
         return match env::var("SDKMAN_DIR") {
             Ok(dir) => {
-                let base = format!("{}/candidates/{}", dir, candidate);
-                if std::path::Path::new(&base).is_dir() {
+                let base = Path::new(dir.as_str()).join("candidates").join(candidate);
+                if base.is_dir() {
                     read_dir(base)
                         .expect("Failed to read $SDKMAN_DIR")
                         .filter(|entry| entry.as_ref().unwrap().file_type().unwrap().is_dir())
