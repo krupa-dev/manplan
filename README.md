@@ -14,6 +14,34 @@ manifest will be uninstalled unless the -n|--no-uninstall flag is
 specified. Candidates that are not listed in the manifest will be
 ignored.
 
+## Installation
+
+### MacOS
+
+#### `amd64`
+
+```shell
+curl -O -L "https://github.com/krupa-dev/manplan/releases/latest/download/manplan-amd64-macos"
+mv manplan-amd64-macos /usr/local/bin/manplan
+chmod +x /usr/local/bin/manplan
+```
+
+#### `arm64`
+
+```shell
+curl -O -L "https://github.com/krupa-dev/manplan/releases/latest/download/manplan-arm64-macos"
+mv manplan-arm64-macos /usr/local/bin/manplan
+chmod +x /usr/local/bin/manplan
+```
+
+### Linux
+
+```shell
+curl -O -L "https://github.com/krupa-dev/manplan/releases/latest/download/manplan-amd64-linux"
+mv manplan-amd64-linux /usr/local/bin/manplan
+chmod +x /usr/local/bin/manplan
+```
+
 ## Usage
 
 `manplan -f|--file <manifest file> [-d|--dry-run] [-n|--no-uninstall]`
