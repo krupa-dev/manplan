@@ -44,6 +44,7 @@ impl ToolManager for SdkMan {
         let shell = env::var("SHELL").unwrap();
         let output = std::process::Command::new(shell)
             .arg("-l")
+            .arg("-i")
             .arg("-c")
             .arg(format!("sdk list {}", candidate))
             .output()
@@ -71,6 +72,7 @@ impl ToolManager for SdkMan {
         if !self.dry_run {
             let output = std::process::Command::new(shell)
                 .arg("-l")
+                .arg("-i")
                 .arg("-c")
                 .arg(cmd)
                 .output()
@@ -99,6 +101,7 @@ impl ToolManager for SdkMan {
         } else if !self.dry_run {
             let output = std::process::Command::new(shell)
                 .arg("-l")
+                .arg("-i")
                 .arg("-c")
                 .arg(cmd)
                 .output()
@@ -125,6 +128,7 @@ impl ToolManager for SdkMan {
         if !self.dry_run {
             let output = std::process::Command::new(shell)
                 .arg("-l")
+                .arg("-i")
                 .arg("-c")
                 .arg(cmd)
                 .output()
