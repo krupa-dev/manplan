@@ -48,11 +48,19 @@ impl ToolManager for SdkMan {
             .arg(format!("sdk list {}", candidate))
             .output()
             .expect("Failed to run the sdk list command. Is SDKMAN installed?");
-        SdkManCandidate {
-            name: candidate,
-            output: String::from_utf8(output.stdout).unwrap(),
+        if output.status.success() {
+            SdkManCandidate {
+                name: candidate,
+                output: String::from_utf8(output.stdout).unwrap(),
+            }
+            .available_versions()
+        } else {
+            panic!(
+                "Failed to run sdk list: {} {}",
+                String::from_utf8(output.stdout).unwrap(),
+                String::from_utf8(output.stderr).unwrap()
+            );
         }
-        .available_versions()
     }
 
     fn install(&self, candidate: String, version: String) {
@@ -70,7 +78,11 @@ impl ToolManager for SdkMan {
             if output.status.success() {
                 println!("OK");
             } else {
-                println!("Error: {}", String::from_utf8(output.stdout).unwrap());
+                println!(
+                    "Error: {} {}",
+                    String::from_utf8(output.stdout).unwrap(),
+                    String::from_utf8(output.stderr).unwrap()
+                );
             }
         } else {
             println!("DRY-RUN");
@@ -94,7 +106,11 @@ impl ToolManager for SdkMan {
             if output.status.success() {
                 println!("OK");
             } else {
-                println!("Error: {}", String::from_utf8(output.stdout).unwrap());
+                println!(
+                    "Error: {} {}",
+                    String::from_utf8(output.stdout).unwrap(),
+                    String::from_utf8(output.stderr).unwrap()
+                );
             }
         } else {
             println!("DRY-RUN");
@@ -116,7 +132,11 @@ impl ToolManager for SdkMan {
             if output.status.success() {
                 println!("OK");
             } else {
-                println!("Error: {}", String::from_utf8(output.stdout).unwrap());
+                println!(
+                    "Error: {} {}",
+                    String::from_utf8(output.stdout).unwrap(),
+                    String::from_utf8(output.stderr).unwrap()
+                );
             }
         } else {
             println!("DRY-RUN");
