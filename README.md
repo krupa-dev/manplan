@@ -3,6 +3,9 @@
 This tool reads a YAML manifest defining a list of SDKman candidate
 versions and installs the latest versions that match this manifest.
 
+If the -f option is not provided, the default manifest
+(~/.sdk-rules.yaml) is used.
+
 Each candidate can support multiple versions and each version is
 specified as a regular expression match and zero or more regular
 expression exclusions (in order to, for example, filter out release
@@ -44,7 +47,7 @@ chmod +x /usr/local/bin/manplan
 
 ## Usage
 
-`manplan -f|--file <manifest file> [-d|--dry-run] [-n|--no-uninstall]`
+`manplan [-f|--file <manifest file>] [-d|--dry-run] [-n|--no-uninstall]`
 
 ## Manifest format
 
