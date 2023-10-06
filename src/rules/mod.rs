@@ -1,3 +1,4 @@
+use expect_exit::Expected;
 use regex::Regex;
 use std::collections::HashMap;
 
@@ -32,7 +33,7 @@ pub trait VersionMatch {
 impl VersionMatch for Version {
     fn get_matching(&self, name: String, available: Vec<String>) -> Option<String> {
         let pattern = Regex::new(self.pattern.as_str())
-            .unwrap_or_else(|_| panic!("Invalid regex for {}: {}", name, self.pattern));
+            .or_exit_(format!("Invalid regex for {}: {}", name, self.pattern).as_str());
         let mut matches: Vec<String> = available
             .iter()
             .filter(|it| pattern.is_match(it))
@@ -41,7 +42,7 @@ impl VersionMatch for Version {
 
         if let Some(exclude) = self.exclude.as_ref() {
             let exclude_pattern = Regex::new(exclude.join("|").as_str())
-                .unwrap_or_else(|_| panic!("Invalid regex for {}: {}", name, exclude.join("|")));
+                .or_exit_(format!("Invalid regex for {}: {}", name, exclude.join("|")).as_str());
             matches.retain(|it| !exclude_pattern.is_match(it));
         }
 

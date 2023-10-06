@@ -52,7 +52,7 @@ fn main() {
         get_rules_file(&args).or_exit_("Must specify -f or have a ~/.sdk-rules.yaml file");
     let rules = parse_rules(fs::read_to_string(rules_file).or_exit_("Failed to read rules file"));
 
-    for (name, candidate) in rules.expect("Rules file could not be parsed").candidates {
+    for (name, candidate) in rules.or_exit_("Rules file could not be parsed").candidates {
         let installed: HashSet<_> = sdkman
             .installed_versions(name.clone())
             .into_iter()

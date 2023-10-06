@@ -1,4 +1,5 @@
 use crate::sdkman::candidate::{Candidate, SdkManCandidate};
+use expect_exit::Expected;
 use std::fs::read_dir;
 use std::io::Write;
 use std::path::Path;
@@ -27,7 +28,7 @@ impl ToolManager for SdkMan {
                 let base = Path::new(dir.as_str()).join("candidates").join(candidate);
                 if base.is_dir() {
                     read_dir(base)
-                        .expect("Failed to read $SDKMAN_DIR")
+                        .or_exit_("Failed to read $SDKMAN_DIR")
                         .filter(|entry| entry.as_ref().unwrap().file_type().unwrap().is_dir())
                         .map(|entry| entry.unwrap().file_name().into_string().unwrap())
                         .collect()
@@ -49,7 +50,7 @@ impl ToolManager for SdkMan {
             .arg("-c")
             .arg(format!("sdk list {}", candidate))
             .output()
-            .expect("Failed to run the sdk list command. Is SDKMAN installed?");
+            .or_exit_("Failed to run the sdk list command. Is SDKMAN installed?");
         if output.status.success() {
             SdkManCandidate {
                 name: candidate,
@@ -77,7 +78,7 @@ impl ToolManager for SdkMan {
                 .arg("-c")
                 .arg(cmd)
                 .output()
-                .expect("Error running sdk install command");
+                .or_exit_("Error running sdk install command");
             if output.status.success() {
                 println!("OK");
             } else {
@@ -106,7 +107,7 @@ impl ToolManager for SdkMan {
                 .arg("-c")
                 .arg(cmd)
                 .output()
-                .expect("Error running sdk install command");
+                .or_exit_("Error running sdk install command");
             if output.status.success() {
                 println!("OK");
             } else {
@@ -133,7 +134,7 @@ impl ToolManager for SdkMan {
                 .arg("-c")
                 .arg(cmd)
                 .output()
-                .expect("Error running sdk install command");
+                .or_exit_("Error running sdk install command");
             if output.status.success() {
                 println!("OK");
             } else {
