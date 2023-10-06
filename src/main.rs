@@ -1,5 +1,5 @@
 use std::collections::HashSet;
-use std::fs;
+use std::{env, fs};
 
 use clap::Parser;
 
@@ -12,8 +12,8 @@ pub mod sdkman;
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 struct Args {
-    /// Filename of the YAML config file
-    #[arg(short, long)]
+    /// Filename of the YAML config file.
+    #[arg(short, long, default_value_t = get_rules_dotfile())]
     file: String,
 
     /// Just print out the commands that would be executed
@@ -23,6 +23,17 @@ struct Args {
     /// Do not uninstall non-required candidate versions
     #[arg(short, long, default_value_t = false)]
     no_uninstall: bool,
+}
+
+fn get_rules_dotfile() -> String {
+    format!(
+        "{}/{}",
+        match env::var_os("HOME") {
+            Some(v) => v.into_string().unwrap(),
+            None => panic!("$HOME environment variable is not set"),
+        },
+        String::from(".sdk-rules.yaml")
+    )
 }
 
 fn main() {
