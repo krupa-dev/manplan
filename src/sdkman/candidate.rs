@@ -22,7 +22,7 @@ mod private {
             let mut equals = 0;
             let mut version_table: Vec<Vec<String>> = Vec::new();
             let lines = self.output.lines();
-            let equals_pattern = Regex::new("^=+$").unwrap();
+            let equals_pattern = Regex::new("^(\\x1b.*)?={5,}$").unwrap();
             for line in lines {
                 if equals_pattern.is_match(line) {
                     equals += 1;
@@ -48,7 +48,7 @@ mod private {
             let mut dashes = 0;
             let lines = self.output.lines();
             let mut versions: Vec<String> = Vec::new();
-            let equals_pattern = Regex::new("^=+$").unwrap();
+            let equals_pattern = Regex::new("^(\\x1b.*)?={5,}$").unwrap();
             let dashes_pattern = Regex::new("^-+$").unwrap();
             for line in lines {
                 if equals_pattern.is_match(line) {
@@ -90,7 +90,7 @@ mod test {
         let candidate = SdkManCandidate {
             name: "kotlin".to_string(),
             output: "
-================================================================================
+\x1b]1================================================================================
 Available Kotlin Versions
 ================================================================================
  > * 1.9.0               1.4.20              1.2.70              1.1.4
