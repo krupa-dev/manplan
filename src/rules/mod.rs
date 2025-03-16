@@ -46,7 +46,7 @@ impl VersionMatch for Version {
             matches.retain(|it| !exclude_pattern.is_match(it));
         }
 
-        return matches.first().map(|it| it.to_string());
+        matches.first().map(|it| it.to_string());
     }
 }
 
