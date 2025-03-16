@@ -60,7 +60,7 @@ mod private {
                     if let Some(word) = line
                         .split_whitespace()
                         .filter(|word| *word != "*" && *word != ">")
-                        .last()
+                        .next_back()
                     {
                         versions.push(word.to_string());
                     }
