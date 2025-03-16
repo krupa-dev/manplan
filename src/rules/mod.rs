@@ -30,6 +30,7 @@ pub trait VersionMatch {
     fn get_matching(&self, name: String, available: Vec<String>) -> Option<String>;
 }
 
+#[allow(clippy::needless_return)]
 impl VersionMatch for Version {
     fn get_matching(&self, name: String, available: Vec<String>) -> Option<String> {
         let pattern = Regex::new(self.pattern.as_str())
@@ -46,7 +47,7 @@ impl VersionMatch for Version {
             matches.retain(|it| !exclude_pattern.is_match(it));
         }
 
-        matches.first().map(|it| it.to_string());
+        return matches.first().map(|it| it.to_string());
     }
 }
 
