@@ -50,12 +50,13 @@ mod private {
             let mut versions: Vec<String> = Vec::new();
             let equals_pattern = Regex::new("^(\\x1b.*)?={5,}$").unwrap();
             let dashes_pattern = Regex::new("^-+$").unwrap();
+            let local_pattern = Regex::new("^.*local only.*$").unwrap();
             for line in lines {
                 if equals_pattern.is_match(line) {
                     equals += 1;
                 } else if dashes_pattern.is_match(line) {
                     dashes += 1;
-                } else if equals == 2 && dashes == 1 {
+                } else if equals == 2 && dashes == 1 && !local_pattern.is_match(line) {
                     if let Some(word) = line
                         .split_whitespace()
                         .filter(|word| *word != "*" && *word != ">")
@@ -119,7 +120,8 @@ Available Java Versions for macOS ARM 64bit
 ================================================================================
  Vendor        | Use | Version      | Dist    | Status     | Identifier
 --------------------------------------------------------------------------------
- Corretto      |     | 21           | amzn    |            | 21-amzn
+ Corretto      |     | 21.1         | amzn    | local only | 21.1-amzn
+               |     | 21           | amzn    |            | 21-amzn
                |     | 20.0.2       | amzn    |            | 20.0.2-amzn
  Gluon         |     | 22.1.0.1.r17 | gln     |            | 22.1.0.1.r17-gln
                |     | 22.1.0.1.r11 | gln     |            | 22.1.0.1.r11-gln
