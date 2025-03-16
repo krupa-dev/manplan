@@ -40,12 +40,12 @@ jobs:
           command: build
       - name: Rename result
         run: |
-          cp target/${{ matrix.job.target }}/release/manplan manplan-${{ matrix.job.exe }}-${{ github.ref_name }}
+          cp target/${{ matrix.job.target }}/release/manplan manplan-${{ matrix.job.exe }}
       - name: Archive production artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: manplan-${{ matrix.job.exe }}-${{ github.ref_name }}
-          path: manplan-${{ matrix.job.exe }}-${{ github.ref_name }}
+          name: manplan-${{ matrix.job.exe }}
+          path: manplan-${{ matrix.job.exe }}
 
   release:
     name: "Tagged Release"
@@ -55,13 +55,13 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           path: binary/
-          pattern: manplan-*-${{ github.ref_name }}
+          pattern: manplan-*
           merge-multiple: true
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
           files: |
-            binary/manplan-amd64-macos-${{ github.ref_name }}
-            binary/manplan-arm64-macos-${{ github.ref_name }}
-            binary/manplan-amd64-linux-${{ github.ref_name }}
+            binary/manplan-amd64-macos
+            binary/manplan-arm64-macos
+            binary/manplan-amd64-linux
