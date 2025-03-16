@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: binary
-          path: manplan-${{ matrix.job.exe }}
+          path: manplan-${{ matrix.job.exe }}-${{ github.ref_name }}
 
   release:
     name: "Tagged Release"
